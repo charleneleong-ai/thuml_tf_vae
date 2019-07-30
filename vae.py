@@ -106,8 +106,8 @@ def build_q_net(x, z_dim, n_particles=1):
         TODO3: add two more mlp layers of 500 hidden units
         HINT: from x to z
     '''
-    z = tf.layers.dense(x, 500, activation=tf.nn.relu) # a mlp layer of 500 hidden units with z as the input
-    h = tf.layers.dense(z, 500, activation=tf.nn.relu) # a mlp layer of 500 hidden units with z as the input
+    v = tf.layers.dense(x, 500, activation=tf.nn.relu) # a mlp layer of 500 hidden units with z as the input
+    h = tf.layers.dense(v, 500, activation=tf.nn.relu) # a mlp layer of 500 hidden units with z as the input
 
 
     z_mean = tf.layers.dense(h, z_dim)
@@ -121,9 +121,8 @@ def build_q_net(x, z_dim, n_particles=1):
             > e.g.
                 - z = bn.normal("z", z_mean, std=1., group_ndims=1, n_samples=n_particles)
     '''
-    #z = bn.normal("z", z_mean, std=1., group_ndims=1, n_samples=n_particles)
     z = bn.normal("z", z_mean, logstd=z_logstd, group_ndims=1, n_samples=n_particles)
-
+    
     return bn
 
 
